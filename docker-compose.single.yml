@@ -1,0 +1,32 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: password-manager-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.combined
+      args:
+        VITE_API_BASE_URL: /api
+    container_name: password-manager-app
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      DB_NAME: passwordManager
+      MONGODB_URI: mongodb://mongo:27017
+      FRONTEND_URL: http://localhost:8080
+    ports:
+      - "8080:80"
+      - "3000:3000"
+
+volumes:
+  mongo_data:
