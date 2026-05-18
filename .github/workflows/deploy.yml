@@ -2,9 +2,9 @@ name: PassOP CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, dev ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, dev ]
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -12,9 +12,6 @@ env:
   IMAGE_BACKEND: ${{ secrets.DOCKER_USERNAME }}/passop-backend
 
 jobs:
-  # ─────────────────────────────────────────
-  # STAGE 1: Build
-  # ─────────────────────────────────────────
   build:
     name: Build
     runs-on: ubuntu-latest
